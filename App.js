@@ -10,7 +10,9 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, TouchableOpacity,ToastAndroid} from 'react-native';
 // import BluetoothPrinter from "./android/BluetoothPrinter";
-import Print from "react-native-yk-print";
+// import Print from "react-native-yk-print";
+import Print from "./android/print";
+
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
