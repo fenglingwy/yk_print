@@ -81,4 +81,18 @@ public  class BluetoothActivity extends Activity implements BtInterface {
     public void btPairingRequest(Intent intent) {
 
     }
+
+
+    protected String getPrinterName() {
+        String dName = PrintUtil.getDefaultBluetoothDeviceName(this);
+        return getPrinterName(dName);
+    }
+
+    protected String getPrinterName(String dName) {
+        if (TextUtils.isEmpty(dName)) {
+            dName = "未知设备";
+        }
+        return dName;
+    }
+
 }

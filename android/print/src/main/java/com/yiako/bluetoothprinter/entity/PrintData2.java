@@ -1,39 +1,31 @@
 package com.yiako.bluetoothprinter.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class PrintData2 {
     /**
-     * code : 0
-     * message :
      * Barcode :
      * type_name :
      * last_qty :
      * traySowDtls : [{"zone_id":"","sow_id":"","qty":""}]
+     *
+     *     * barcode: " 1234567890"
+     *      * main_distribution_type: 0
+     *      * remain_qty: 2000
+     *      * sow_zone_qty_list: Array(1)
+     *      * 0: {zone_num_id: 232000, sow_num_id: 232001, qty: 0}
      */
 
-    private int code;
-    private String message;
+    @SerializedName("barcode")
     private String Barcode;
+    @SerializedName("main_distribution_type")
     private String type_name;
+    @SerializedName("remain_qty")
     private String last_qty;
+    @SerializedName("sow_zone_qty_list")
     private List<TraySowDtlsBean> traySowDtls;
-
-    public int getCode() {
-        return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
 
     public String getBarcode() {
         return Barcode;
@@ -72,9 +64,12 @@ public class PrintData2 {
          * zone_id :
          * sow_id :
          * qty :
+         * {zone_num_id: 232000, sow_num_id: 232001, qty: 0}
          */
 
+        @SerializedName("zone_num_id")
         private String zone_id;
+        @SerializedName("sow_num_id")
         private String sow_id;
         private String qty;
 

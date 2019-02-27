@@ -87,41 +87,18 @@ public class BluetoothSearchActivity extends BluetoothActivity implements Adapte
         mRv.setAdapter(searchBleAdapter);
         mRv.setOnItemClickListener(this);
 
-        mBtnSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                searchBleAdapter.getDevices().clear();
-                searchBleAdapter.notifyDataSetChanged();
-                searchDeviceOrOpenBluetooth();
-            }
+        mBtnSearch.setOnClickListener(v -> {
+            searchBleAdapter.getDevices().clear();
+            searchBleAdapter.notifyDataSetChanged();
+            searchDeviceOrOpenBluetooth();
         });
-        findViewById(R.id.print).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final PrinterInstance mPritner = PrinterInstance.mPrinter;
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        new PrintLabel80().doPrint(mPritner);
-                    }
-                }).start();
-            }
+        findViewById(R.id.print).setOnClickListener(v -> {
+            final PrinterInstance mPritner = PrinterInstance.mPrinter;
+            new Thread(() -> new PrintLabel80().doPrint(mPritner)).start();
         });
 
     }
 
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        BtUtil.registerBluetoothReceiver(mBtReceiver, this);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        BtUtil.unregisterBluetoothReceiver(mBtReceiver, this);
-    }
 
     @Override
     public void btStatusChanged(Intent intent) {
@@ -187,54 +164,6 @@ public class BluetoothSearchActivity extends BluetoothActivity implements Adapte
     }
 
 
-    /**
-     * blue tooth broadcast receiver
-     */
-    protected BroadcastReceiver mBtReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (null == intent) {
-                return;
-            }
-            String action = intent.getAction();
-            if (TextUtils.isEmpty(action)) {
-                return;
-            }
-
-            if (BluetoothAdapter.ACTION_DISCOVERY_STARTED.equals(action)) {
-                //开始搜索
-                btStartDiscovery(intent);
-            } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
-                //结束搜索
-                btFinishDiscovery(intent);
-            } else if (BluetoothAdapter.ACTION_STATE_CHANGED.equals(action)) {
-                //蓝牙状态改变
-                btStatusChanged(intent);
-            } else if (BluetoothDevice.ACTION_FOUND.equals(action)) {
-                //发现设备
-                btFoundDevice(intent);
-            } else if (BluetoothDevice.ACTION_BOND_STATE_CHANGED.equals(action)) {
-                //配对状态改变
-                btBondStatusChange(intent);
-            } else if ("android.bluetooth.device.action.PAIRING_REQUEST".equals(action)) {
-                btPairingRequest(intent);
-            }
-        }
-    };
-
-    private String getPrinterName() {
-        String dName = PrintUtil.getDefaultBluetoothDeviceName(this);
-        return getPrinterName(dName);
-    }
-
-    private String getPrinterName(String dName) {
-        if (TextUtils.isEmpty(dName)) {
-            dName = "未知设备";
-        }
-        return dName;
-    }
-
-
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
         BtUtil.cancelDiscovery(mBluetoothAdapter);
@@ -284,7 +213,6 @@ public class BluetoothSearchActivity extends BluetoothActivity implements Adapte
             } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException | IllegalArgumentException e) {
                 e.printStackTrace();
             }
-            Log.i("1111111111111", "createBond is success? : " + success);
         } else {
             new connectThread().start();
         }
@@ -332,12 +260,13 @@ public class BluetoothSearchActivity extends BluetoothActivity implements Adapte
                 case PrinterConstants.Connect.FAILED:
                     isConnected = false;
                     ToastUtils.showShort("蓝牙连接失败！");
+                    progressDialog.dismiss();
                     break;
                 case PrinterConstants.Connect.CLOSED:
                     isConnected = false;
                     GlobalContants.ISCONNECTED = isConnected;
                     GlobalContants.DEVICENAME = devicesName;
-                    ToastUtils.showShort("蓝牙连接关闭！");
+//                    ToastUtils.showShort("蓝牙连接关闭！");
                     break;
                 case PrinterConstants.Connect.NODEVICE:
                     isConnected = false;
@@ -363,6 +292,7 @@ public class BluetoothSearchActivity extends BluetoothActivity implements Adapte
         if (BtUtil.isOpen(mBluetoothAdapter)) {
             BtUtil.cancelDiscovery(mBluetoothAdapter);
         }
+        unregisterReceiver(myReceiver);
         super.onDestroy();
     }
 }

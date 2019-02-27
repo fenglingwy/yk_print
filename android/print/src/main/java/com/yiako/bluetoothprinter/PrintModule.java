@@ -10,21 +10,26 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
-import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
 import com.printer.sdk.PrinterInstance;
+import com.printer.sdk.exception.PrinterPortNullException;
+import com.printer.sdk.exception.ReadException;
+import com.printer.sdk.exception.WriteException;
 import com.yiako.bluetoothprinter.bt.BluetoothSearchActivity;
 import com.yiako.bluetoothprinter.bt.PrintUtil;
 import com.yiako.bluetoothprinter.entity.PrintData1;
 import com.yiako.bluetoothprinter.entity.PrintData2;
+import com.yiako.bluetoothprinter.entity.PrintData3;
 import com.yiako.bluetoothprinter.template.PrintTemplate1;
 import com.yiako.bluetoothprinter.template.PrintTemplate2;
+import com.yiako.bluetoothprinter.template.PrintTemplate3;
 
+import java.lang.reflect.Type;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class PrintModule extends ReactContextBaseJavaModule {
-    private static final String DURATION_SHORT_KEY = "SHORT";
-    private static final String DURATION_LONG_KEY = "LONG";
 
     public PrintModule(ReactApplicationContext reactContext) {
         super(reactContext);
@@ -45,14 +50,11 @@ public class PrintModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void print(final int templateType, final String data) {
-        if(TextUtils.isEmpty(data)){
+        if (TextUtils.isEmpty(data)) {
             ToastUtils.showShort("打印数据不能为空!");
             return;
         }
-
-
         if (mPritner == null) mPritner = PrinterInstance.mPrinter;
-
         if (mPritner == null) {
             ToastUtils.showShort("请连接打印机！");
             Intent intent = new Intent(getReactApplicationContext(), BluetoothSearchActivity.class);
@@ -60,25 +62,50 @@ public class PrintModule extends ReactContextBaseJavaModule {
             return;
         }
 
+        int status = -4;
+        try {
+            status = mPritner.getPrinterStatusTSPL();
+        } catch (WriteException | PrinterPortNullException | ReadException e) {
+            e.printStackTrace();
+        }
+
+        //                0 状态正常;-1 缺纸;-2 开盖;-3 其他错误
+        if(status==-1){
+            ToastUtils.showShort("打印机缺纸");return;
+        }else if(status==-2){
+            ToastUtils.showShort("打印机开盖");return;
+        } else if(status==-3){
+            ToastUtils.showShort("打印机连接错误");return;
+        }else if(status==-4){
+            ToastUtils.showShort("打印机断开，请重新连接！");
+            mPritner.closeConnection();
+            Intent intent = new Intent(getReactApplicationContext(), BluetoothSearchActivity.class);
+            getCurrentActivity().startActivity(intent);
+            return;
+        }
+
 
         if (mPritner != null) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        switch (templateType){
-                            case 1:
-
-                                new PrintTemplate1().doPrint(mPritner,new Gson().fromJson(data,PrintData1.class));
-                                break;
-                            case 2:
-                                new PrintTemplate2().doPrint(mPritner,   new Gson().fromJson(data,PrintData2.class));
-                                break;
-                        }
-                    } catch (JsonParseException e) {
-                        e.printStackTrace();
-                        ToastUtils.showShort("打印数据解析异常!");
+            new Thread(() -> {
+                try {
+                    switch (templateType) {
+                        case 1:
+                            Type type1 = new TypeToken<List<PrintData1>>() {}.getType();
+                            List<PrintData1> list1 = new Gson().fromJson(data, type1);
+                            new PrintTemplate1().doPrint(mPritner, list1);
+                            break;
+                        case 2:
+                            Type type2 = new TypeToken<List<PrintData2>>() {}.getType();
+                            List<PrintData2> list2 = new Gson().fromJson(data, type2);
+                            new PrintTemplate2().doPrint(mPritner, list2);
+                            break;
+                        case 3:
+                            new PrintTemplate3().doPrint(mPritner,new Gson().fromJson(data, PrintData3.class));
+                            break;
                     }
+                } catch (JsonParseException e) {
+                    e.printStackTrace();
+                    ToastUtils.showShort("打印数据解析异常!");
                 }
             }).start();
         }
@@ -88,7 +115,6 @@ public class PrintModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void connectBluetooth() {
         BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-
         if (PrintUtil.isBondPrinter(getCurrentActivity(), mBluetoothAdapter)) {
 
         } else {
@@ -96,18 +122,4 @@ public class PrintModule extends ReactContextBaseJavaModule {
             getCurrentActivity().startActivity(intent);
         }
     }
-
-//    private void connect2BlueToothdevice() {
-//        mDevice = BluetoothAdapter.getDefaultAdapter().getRemoteDevice(devicesAddress);
-//        devicesName = mDevice.getName();
-//        myPrinter = PrinterInstance.getPrinterInstance(mDevice, mHandler);
-//        if (mDevice.getBondState() == BluetoothDevice.BOND_NONE) {// 未绑定
-//            // IntentFilter boundFilter = new IntentFilter();
-//            // boundFilter.addAction(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
-//            // mContext.registerReceiver(boundDeviceReceiver, boundFilter);
-//            PairOrConnect(true);
-//        } else {
-//            PairOrConnect(false);
-//        }
-//    }
 }

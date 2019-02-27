@@ -40,23 +40,30 @@ public class PrintTemplate2 {
     private int[] row_height = {8 * MULTIPLE, 16 * MULTIPLE};
     private String TAG = "PrintLabel";
 
-    public void doPrint(final PrinterInstance iPrinter, PrintData2 printData) {
-        List<PrintData2.TraySowDtlsBean> traySowDtls = printData.getTraySowDtls();
+    public void doPrint(final PrinterInstance iPrinter, List<PrintData2> list) {
+
+
+
         new Thread() {
             public void run() {
-                for (int i = 0; i < 1; i++) {
-                    for (int lines = 0; lines < traySowDtls.size(); lines++) {
-                        page_height += row_height[0];
-                    }
-                    border_height = page_height - 2 * margin_vertical;
-                    bottom_left_y = top_left_y + border_height;
-                    bottom_right_y = bottom_left_y;
+                for (int idx = 0; idx < list.size(); idx++) {
+                    page_height = 48 * MULTIPLE;
+                    PrintData2 printData = list.get(idx);
+                    List<PrintData2.TraySowDtlsBean> traySowDtls = printData.getTraySowDtls();
+                    for (int i = 0; i < 1; i++) {
+                        for (int lines = 0; lines < traySowDtls.size(); lines++) {
+                            page_height += row_height[0];
+                        }
+                        border_height = page_height - 2 * margin_vertical;
+                        bottom_left_y = top_left_y + border_height;
+                        bottom_right_y = bottom_left_y;
 
-                    iPrinter.pageSetup(LablePaperType.Size_80mm, page_width, page_height);
-                    drawBox(iPrinter,traySowDtls.size());
-                    drawVerticalSeparator(iPrinter);
-                    drawRowContent(iPrinter,printData);
-                    iPrinter.print(PRotate.Rotate_0, 0);
+                        iPrinter.pageSetup(LablePaperType.Size_80mm, page_width, page_height);
+                        drawBox(iPrinter, traySowDtls.size());
+                        drawVerticalSeparator(iPrinter);
+                        drawRowContent(iPrinter, printData);
+                        iPrinter.print(PRotate.Rotate_0, 0);
+                    }
                 }
             }
         }.start();

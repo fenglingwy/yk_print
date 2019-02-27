@@ -10,6 +10,8 @@ import com.printer.sdk.PrinterConstants.PRotate;
 import com.printer.sdk.PrinterInstance;
 import com.yiako.bluetoothprinter.entity.PrintData1;
 
+import java.util.List;
+
 public class PrintTemplate1 {
 
     private static int MULTIPLE = 8;
@@ -35,19 +37,17 @@ public class PrintTemplate1 {
             10 * MULTIPLE, 10 * MULTIPLE};
     private static final String TAG = "PrintLabel";
 
-    public void doPrint(final PrinterInstance iPrinter, final PrintData1 printData1) {
+    public void doPrint(final PrinterInstance iPrinter, final List<PrintData1> list) {
         new Thread() {
             public void run() {
-                for (int i = 0; i < 1; i++) {
+                for (int i = 0; i < list.size(); i++) {
                     iPrinter.pageSetup(LablePaperType.Size_80mm, page_width, page_height);
                     drawBox(iPrinter);
 //					drawVerticalSeparator(iPrinter);
-                    drawRowContent(iPrinter,printData1);
+                    drawRowContent(iPrinter,list.get(i));
                     iPrinter.print(PRotate.Rotate_0, 0);
                 }
             }
-
-            ;
         }.start();
 
     }
@@ -71,38 +71,46 @@ public class PrintTemplate1 {
         // 打印第2行条码
         iPrinter.drawBarCode(top_left_x + row36_column1_width, top_left_y + row_height[0],
                 top_right_x, top_left_y + row_height[0] + row_height[1], PAlign.CENTER, PAlign.CENTER, 0, 0,
-                printData1.getTraySerlnoPrintInfo().getTray_serlno(), PBarcodeType.CODE128, 1, 80, PRotate.Rotate_0);
+                printData1.getTray_serlno(), PBarcodeType.CODE128, 1, 80, PRotate.Rotate_0);
 
         // 打印第2行条码下方的文字
         iPrinter.drawText(top_left_x + row36_column1_width, top_left_y + row_height[0] + 120,
                 top_right_x, top_left_y + row_height[0] + row_height[1], PAlign.CENTER, PAlign.CENTER,
-                printData1.getTraySerlnoPrintInfo().getTray_serlno(), LableFontSize.Size_24, 1, 0, 0, 0, PRotate.Rotate_0);
+                printData1.getTray_serlno(), LableFontSize.Size_24, 1, 0, 0, 0, PRotate.Rotate_0);
 
 
         // 第三行内容 左边栏内容
         iPrinter.drawText(top_left_x, top_left_y + row_height[0] + row_height[1], area_start_x_3_3,
-                top_left_y + row_height[1] + row_height[0] * 2, PAlign.START, PAlign.CENTER, " 条码："+printData1.getTraySerlnoPrintInfo().getBarcode(),
+                top_left_y + row_height[1] + row_height[0] * 2, PAlign.START, PAlign.CENTER, " 条码："+printData1.getBarcode(),
                 LableFontSize.Size_24, 1, 0, 0, 0, PRotate.Rotate_0);
 
         // 第三行内容 右边栏内容
         iPrinter.drawText(area_start_x_3_3, top_left_y + row_height[1] + row_height[0],
-                top_right_x, top_left_y + row_height[1] + row_height[0] * 2, PAlign.START, PAlign.CENTER, " 数量："+printData1.getTraySerlnoPrintInfo().getQty(),
+                top_right_x, top_left_y + row_height[1] + row_height[0] * 2, PAlign.START, PAlign.CENTER, " 数量："+printData1.getQty(),
                 LableFontSize.Size_24, 1, 0, 0, 0, PRotate.Rotate_0);
 
         // 第4行内容 左边栏内容
         iPrinter.drawText(top_left_x, top_left_y + row_height[0] * 2 + row_height[1], top_right_x,
-                top_left_y + row_height[1] + row_height[0] * 3, PAlign.START, PAlign.CENTER, " 品名："+printData1.getTraySerlnoPrintInfo().getItem_name(),
+                top_left_y + row_height[1] + row_height[0] * 3, PAlign.START, PAlign.CENTER, " 品名："+printData1.getItem_name(),
                 LableFontSize.Size_24, 1, 0, 0, 0, PRotate.Rotate_0);
 
 
         // 第5行内容 左边栏内容
         iPrinter.drawText(top_left_x, top_left_y + row_height[0] * 3 + row_height[1], top_right_x,
-                top_left_y + row_height[1] + row_height[0] * 4, PAlign.START, PAlign.CENTER, " 验收单号："+printData1.getTraySerlnoPrintInfo().getReserved_no(),
+                top_left_y + row_height[1] + row_height[0] * 4, PAlign.START, PAlign.CENTER, " 验收单号："+printData1.getReserved_no(),
                 LableFontSize.Size_24, 1, 0, 0, 0, PRotate.Rotate_0);
 
         // 第5行内容 右边栏内容
+        String mark = "";
+        switch (printData1.getMain_distribution_type()){
+            //新品主配，补货主配，留仓主配   1,2,3
+            case "1": mark = "新品主配";break;
+            case "2": mark = "补货主配";break;
+            case "3": mark = "留仓主配";break;
+        }
+
         iPrinter.drawText(top_left_x , top_left_y + row_height[1] + row_height[0]*4,
-                top_right_x, top_left_y + row_height[1] + row_height[0] * 5, PAlign.START, PAlign.CENTER, " 主配标记：缺字段",
+                top_right_x, top_left_y + row_height[1] + row_height[0] * 5, PAlign.START, PAlign.CENTER, " 主配标记："+mark,
                 LableFontSize.Size_24, 1, 0, 0, 0, PRotate.Rotate_0);
 
 

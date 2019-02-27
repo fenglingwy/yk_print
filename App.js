@@ -8,76 +8,84 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, TouchableOpacity,ToastAndroid} from 'react-native';
+import {Platform, StyleSheet, Text, View, TouchableOpacity, ToastAndroid} from 'react-native';
 // import BluetoothPrinter from "./android/BluetoothPrinter";
 // import Print from "react-native-yk-print";
 import Print from "./android/print";
 
 
 const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-      'Double tap R on your keyboard to reload,\n' +
-      'Shake or press menu button for dev menu',
+    ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
+    android:
+        'Double tap R on your keyboard to reload,\n' +
+        'Shake or press menu button for dev menu',
 });
-
 
 
 type Props = {};
 export default class App extends Component<Props> {
-  render() {
-    return (
-        <View style={styles.container}>
-          <Text style={styles.welcome}>Welcome to React Native!</Text>
-          <Text style={styles.instructions}>To get started, edit App.js</Text>
-          <Text style={styles.instructions}>{instructions}</Text>
-          {/*<TouchableOpacity onPress={() => BluetoothPrinter.connectBluetooth()}*/}
-          {/*activeOpacity={0.2} focusedOpacity={0.5}>*/}
-          {/*<Text style={styles.btn}>连接打印机</Text>*/}
-          {/*</TouchableOpacity>*/}
+    render() {
+        return (
+            <View style={styles.container}>
+                <Text style={styles.welcome}>Welcome to React Native!</Text>
+                <Text style={styles.instructions}>To get started, edit App.js</Text>
+                <Text style={styles.instructions}>{instructions}</Text>
+                {/*<TouchableOpacity onPress={() => BluetoothPrinter.connectBluetooth()}*/}
+                {/*activeOpacity={0.2} focusedOpacity={0.5}>*/}
+                {/*<Text style={styles.btn}>连接打印机</Text>*/}
+                {/*</TouchableOpacity>*/}
 
-          <TouchableOpacity onPress={() =>{
-            Print.print(1,
-                '{"code":0,"message":"","traySerlnoPrintInfo":{"reserved_no":"12345678901234567890",' +
-                'tray_serlno:"12345678901234567890","item_num_id":"12345678901234567890",' +
-                '"barcode":"12345678901234567890","item_name":"维维熊","qty":"21"}}')
-          }
+                <TouchableOpacity onPress={() => {
+                    Print.print(1,
+                        '[{"reserved_no":"12345678901234567890",' +
+                        'tray_serlno_label:"12345678901234567890","item_num_id":"12345678901234567890",' +
+                        '"barcode":"12345678901234567890","item_name":"维维熊","qty":"21","main_distribution_type":1}]')
+                }
 
-          }                          activeOpacity={0.2} focusedOpacity={0.5}>
-            <Text style={styles.btn}>打印入库装箱单</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => Print.print(2,
-              '{"code":0,"message":"","Barcode":"11111111111","type_name":"新品","last_qty":"123","traySowDtls":[{"zone_id":"S","sow_id":"91","qty":"20"},{"zone_id":"A","sow_id":"11","qty":"21"},{"zone_id":"A","sow_id":"1","qty":"2"},{"zone_id":"C","sow_id":"32","qty":"1"},{"zone_id":"D","sow_id":"11","qty":"211"},{"zone_id":"F","sow_id":"12","qty":"11"}]}'
-          )}
-                            activeOpacity={0.2} focusedOpacity={0.5}>
-            <Text style={styles.btn}>打印箱分货清单</Text>
-          </TouchableOpacity>
-        </View>
-    );
-  }
+                } activeOpacity={0.2} focusedOpacity={0.5}>
+                    <Text style={styles.btn}>打印入库装箱单</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => Print.print(2,
+                    '[{"barcode":"11111111111","main_distribution_type":"新品","remain_qty":"123","sow_zone_qty_list":' +
+                    '[{"zone_num_id":"S","sow_num_id":"91","qty":"20"},{"zone_num_id":"S","sow_num_id":"91","qty":"20"},' +
+                    '{"zone_num_id":"S","sow_num_id":"91","qty":"20"},{"zone_num_id":"S","sow_num_id":"91","qty":"20"},' +
+                    '{"zone_num_id":"S","sow_num_id":"91","qty":"20"}]}]'
+                )}
+                                  activeOpacity={0.2} focusedOpacity={0.5}>
+                    <Text style={styles.btn}>打印箱分货清单</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => Print.print(3,
+                '{"code": 0,"container_labserlno": "190226000004", "full_message": "", "message": "成功","physical_num_id": 1167,"rec_date": 1550678400000, "rec_physical_num_id": 300101,"reserved_no": "131902260040001"}'
+                    )}
+                     activeOpacity={0.2} focusedOpacity={0.5}>
+                    <Text style={styles.btn}>打印出库箱唛头</Text>
+                </TouchableOpacity>
+            </View>
+        );
+    }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'right',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'right',
-    color: '#0000ff',
-    marginBottom: 5,
-  },
-  btn: {
-    textAlign: 'right',
-    color: '#0000ff',
-    marginBottom: 5,
-    marginTop: 10,
-  },
+    container: {
+        flex: 1,
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        backgroundColor: '#F5FCFF',
+    },
+    welcome: {
+        fontSize: 20,
+        textAlign: 'right',
+        margin: 10,
+    },
+    instructions: {
+        textAlign: 'right',
+        color: '#0000ff',
+        marginBottom: 5,
+    },
+    btn: {
+        textAlign: 'right',
+        color: '#0000ff',
+        marginBottom: 5,
+        marginTop: 10,
+    },
 });
