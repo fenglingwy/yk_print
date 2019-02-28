@@ -13,14 +13,14 @@ public class PrintData3 {
      * reserved_no : 131902260040001
      */
 
-    private String code;
-    private String container_labserlno;
-    private Object full_message;
-    private String message;
-    private String physical_num_id;
-    private String rec_date;
-    private String rec_physical_num_id;
-    private String reserved_no;
+    private String code = "";
+    private String container_labserlno= "";
+    private Object full_message= "";
+    private String message= "";
+    private String physical_num_id= "";
+    private String rec_date= "";
+    private String rec_physical_num_id= "";
+    private String reserved_no= "";
 
     public String getCode() {
         return code;

@@ -2,6 +2,7 @@ package com.yiako.bluetoothprinter.entity;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PrintData2 {
@@ -19,13 +20,13 @@ public class PrintData2 {
      */
 
     @SerializedName("barcode")
-    private String Barcode;
+    private String Barcode= "";
     @SerializedName("main_distribution_type")
-    private String type_name;
+    private String type_name= "";
     @SerializedName("remain_qty")
-    private String last_qty;
+    private String last_qty= "";
     @SerializedName("sow_zone_qty_list")
-    private List<TraySowDtlsBean> traySowDtls;
+    private List<TraySowDtlsBean> traySowDtls = new ArrayList<>();
 
     public String getBarcode() {
         return Barcode;
@@ -68,10 +69,10 @@ public class PrintData2 {
          */
 
         @SerializedName("zone_num_id")
-        private String zone_id;
+        private String zone_id = "";
         @SerializedName("sow_num_id")
-        private String sow_id;
-        private String qty;
+        private String sow_id = "";
+        private String qty = "";
 
         public String getZone_id() {
             return zone_id;

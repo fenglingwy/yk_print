@@ -25,13 +25,13 @@ public class PrintData1 {
      *
      */
 
-    private String reserved_no;
+    private String reserved_no = "";
     @SerializedName("tray_serlno_label")
-    private String tray_serlno;
-    private String item_num_id;
-    private String barcode;
-    private String item_name;
-    private String qty;
+    private String tray_serlno = "";
+    private String item_num_id= "";
+    private String barcode= "";
+    private String item_name= "";
+    private String qty= "";
     private String main_distribution_type = "";
 
     public String getMain_distribution_type() {
