@@ -1,5 +1,5 @@
 rootProject.name = 'BTPrint'
-include ':react-native-yk-print'
-project(':react-native-yk-print').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-yk-print/android')
+include ':react-native-yk-bt-print'
+project(':react-native-yk-bt-print').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-yk-bt-print/android')
 
 include ':app'
