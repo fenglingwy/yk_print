@@ -15,7 +15,7 @@ public class PrintTemplate3 {
     private static int MULTIPLE = 8;
     private static final int line_width_border = 2;
     private static final int page_width = 75 * MULTIPLE;
-    private static final int page_height = 75 * MULTIPLE;
+    private static final int page_height = 80 * MULTIPLE;
     private static final int margin_horizontal = 2 * MULTIPLE;
     private static final int top_left_x = margin_horizontal;
     private static final int margin_vertical = 8 * MULTIPLE;
@@ -79,32 +79,32 @@ public class PrintTemplate3 {
                 printData.getReserved_no(), LableFontSize.Size_24, 1, 0, 0, 0, PRotate.Rotate_0);
 
         // 第三行内容 左边栏内容
-        iPrinter.drawText(top_left_x, top_left_y + row_height[0] + row_height[1], area_start_x,
+        iPrinter.drawText(top_left_x, top_left_y + row_height[0] + row_height[1], top_right_x,
                 top_left_y + row_height[1] + row_height[0] * 2, PAlign.START, PAlign.CENTER, " 发货仓："+printData.getPhysical_num_id(),
                 LableFontSize.Size_24, 1, 0, 0, 0, PRotate.Rotate_0);
 
         // 第三行内容 右边栏内容
-        iPrinter.drawText(area_start_x, top_left_y + row_height[1] + row_height[0],
-                top_right_x, top_left_y + row_height[1] + row_height[0] * 2, PAlign.START, PAlign.CENTER, " 收货仓："+printData.getRec_physical_num_id(),
+        iPrinter.drawText(top_left_x, top_left_y + row_height[1] + row_height[0]*2,
+                top_right_x, top_left_y + row_height[1] + row_height[0] * 3, PAlign.START, PAlign.CENTER, " 收货仓："+printData.getRec_physical_num_id(),
                 LableFontSize.Size_24, 1, 0, 0, 0, PRotate.Rotate_0);
 
         // 第4行内容 左边栏内容
-        iPrinter.drawText(top_left_x, top_left_y + row_height[0] * 2 + row_height[1], top_right_x,
-                top_left_y + row_height[1] + row_height[0] * 3, PAlign.START, PAlign.CENTER, " 发货日期："+printData.getRec_date(),
+        iPrinter.drawText(top_left_x, top_left_y + row_height[0] * 3 + row_height[1], top_right_x,
+                top_left_y + row_height[1] + row_height[0] * 4, PAlign.START, PAlign.CENTER, " 发货日期："+printData.getRec_date(),
                 LableFontSize.Size_24, 1, 0, 0, 0, PRotate.Rotate_0);
 
 
-        iPrinter.drawText(top_left_x, top_left_y + row_height[0] * 3 + row_height[1], top_right_x,
-                top_left_y + row_height[1] + row_height[0] * 4, PAlign.START, PAlign.CENTER, " 出库箱号：",
+        iPrinter.drawText(top_left_x, top_left_y + row_height[0] * 4 + row_height[1], top_right_x,
+                top_left_y + row_height[1] + row_height[0] * 5, PAlign.START, PAlign.CENTER, " 出库箱号：",
                 LableFontSize.Size_24, 1, 0, 0, 0, PRotate.Rotate_0);
 
         // 打印出库箱号
-        iPrinter.drawBarCode(top_left_x + row36_column1_width, top_left_y + row_height[0] * 3+ row_height[1],
-                top_right_x, top_left_y + row_height[0]*4 + row_height[1], PAlign.CENTER, PAlign.CENTER, 0, 0,
+        iPrinter.drawBarCode(top_left_x + row36_column1_width, top_left_y + row_height[0] * 4+ row_height[1],
+                top_right_x, top_left_y + row_height[0]*5 + row_height[1], PAlign.CENTER, PAlign.CENTER, 0, 0,
                 printData.getContainer_labserlno(), PBarcodeType.CODE128, 1, 80, PRotate.Rotate_0);
 
-        iPrinter.drawText(top_left_x + row36_column1_width, top_left_y + row_height[0] * 3 + row_height[1] + 120,
-                top_right_x, top_left_y + row_height[0]*4 + row_height[1], PAlign.CENTER, PAlign.CENTER,
+        iPrinter.drawText(top_left_x + row36_column1_width, top_left_y + row_height[0] * 4 + row_height[1] + 120,
+                top_right_x, top_left_y + row_height[0]*5 + row_height[1], PAlign.CENTER, PAlign.CENTER,
                 printData.getContainer_labserlno(), LableFontSize.Size_24, 1, 0, 0, 0, PRotate.Rotate_0);
 
     }
