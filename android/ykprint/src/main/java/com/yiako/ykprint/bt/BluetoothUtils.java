@@ -44,7 +44,6 @@ public class BluetoothUtils {
                 //BluetoothAdapter
             } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action) && BluetoothUtils.this.listener != null) {
                 BluetoothUtils.this.listener.onFinish();
-                BluetoothUtils.this.context.unregisterReceiver(this);
 //                BluetoothUtils.this.listener = null;
             } else if (BluetoothAdapter.ACTION_DISCOVERY_STARTED.equals(action) && BluetoothUtils.this.listener != null) {
                 BluetoothUtils.this.listener.onStart();
@@ -87,21 +86,28 @@ public class BluetoothUtils {
         cancelDiscovery();
         if (!this.adapter.isDiscovering()) {
             this.listener = listener;
-            IntentFilter filter = new IntentFilter();
-            filter.addAction(BluetoothDevice.ACTION_FOUND);
-            filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED);
-            filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
-            filter.addAction(BluetoothAdapter.ACTION_STATE_CHANGED);
-            filter.addAction(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
-            filter.addAction(BluetoothDevice.ACTION_PAIRING_REQUEST);
-
-            filter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
-            filter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED);
-            filter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
-            this.context.registerReceiver(this.receiver, filter);
             this.adapter.startDiscovery();
         }
 
+    }
+
+    public void unRegisterReceiver() {
+        BluetoothUtils.this.context.unregisterReceiver(receiver);
+
+    }
+    public void registerReceiver() {
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(BluetoothDevice.ACTION_FOUND);
+        filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED);
+        filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
+        filter.addAction(BluetoothAdapter.ACTION_STATE_CHANGED);
+        filter.addAction(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
+        filter.addAction(BluetoothDevice.ACTION_PAIRING_REQUEST);
+
+        filter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
+        filter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED);
+        filter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
+        this.context.registerReceiver(this.receiver, filter);
     }
 
     public void cancelDiscovery() {

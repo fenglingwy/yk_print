@@ -1,5 +1,8 @@
 package com.btprint;
 
+import android.os.Bundle;
+import android.view.WindowManager;
+
 import com.facebook.react.ReactActivity;
 
 public class MainActivity extends ReactActivity {
@@ -12,4 +15,6 @@ public class MainActivity extends ReactActivity {
     protected String getMainComponentName() {
         return "BTPrint";
     }
+
+
 }

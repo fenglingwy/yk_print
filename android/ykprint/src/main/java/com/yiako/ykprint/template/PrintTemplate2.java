@@ -1,6 +1,7 @@
 package com.yiako.ykprint.template;
 
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.dascom.print.ESCPOS;
 import com.yiako.ykprint.bt.CanvasUtils;
 import com.yiako.ykprint.entity.PrintData2;
@@ -59,7 +60,12 @@ public class PrintTemplate2 {
                         drawRowContent(utils, printData);
 
 
-                        escpos.printBitmapBlackWhite(utils.getBitmap(), 0, 0);
+                        boolean b = escpos.printBitmapBlackWhite(utils.getBitmap(), 0, 0);
+                        if(b){
+                            ToastUtils.showShort("打印成功！");
+                        }else{
+                            ToastUtils.showShort("打印失败！");
+                        }
                     }
                 }
             }

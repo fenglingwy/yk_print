@@ -70,12 +70,9 @@ public class BluetoothSearchActivity extends AppCompatActivity implements Adapte
 
     private void initBluetooth() {
         bluetoothUtils = new BluetoothUtils(this);
+        bluetoothUtils.registerReceiver();
 
-        boolean b = bluetoothUtils.openBluetooth();
-        if (b) {
-            ToastUtils.showShort("打开蓝牙失败");
-            return;
-        }
+        bluetoothUtils.openBluetooth();
 
     }
 
@@ -137,6 +134,7 @@ public class BluetoothSearchActivity extends AppCompatActivity implements Adapte
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+        progressDialog.show();
 
         if (null == searchBleAdapter) {
             return;
@@ -157,6 +155,7 @@ public class BluetoothSearchActivity extends AppCompatActivity implements Adapte
             } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException | IllegalArgumentException e) {
                 e.printStackTrace();
                 ToastUtils.showShort("选择配对失败！");
+                closeDilog();
             }
         } else {
             //本地缓存已选设备
@@ -175,6 +174,8 @@ public class BluetoothSearchActivity extends AppCompatActivity implements Adapte
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            closeDilog();
+            finish();
         }
 
     }
@@ -215,8 +216,8 @@ public class BluetoothSearchActivity extends AppCompatActivity implements Adapte
                 case BluetoothDevice.BOND_BONDED://配对结束
                     Log.d("BlueToothTestActivity", "完成配对");
                     //本地缓存已选设备
-                    SPUtils.getInstance().put(SP_DEVICE_NAME, devicesAddress);
-                    SPUtils.getInstance().put(SP_DEVICE_ADDRESS, devicesName);
+                    SPUtils.getInstance().put(SP_DEVICE_NAME,devicesName );
+                    SPUtils.getInstance().put(SP_DEVICE_ADDRESS, devicesAddress);
                     mTvSelected.setText("已选择：" + devicesName);
                     ToastUtils.showShort("选择配对成功！");
                     try {
@@ -229,12 +230,12 @@ public class BluetoothSearchActivity extends AppCompatActivity implements Adapte
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+                    closeDilog();
+                    finish();
                     break;
                 case BluetoothDevice.BOND_NONE://取消配对/未配对
                     Log.d("BlueToothTestActivity", "取消配对");
-                    if (progressDialog != null && progressDialog.isShowing()) {
-                        progressDialog.dismiss();
-                    }
+                    closeDilog();
                 default:
                     break;
             }
@@ -246,4 +247,16 @@ public class BluetoothSearchActivity extends AppCompatActivity implements Adapte
         }
     }
 
+    private void closeDilog() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
+    }
+
+
+    @Override
+    public void finish() {
+        super.finish();
+        bluetoothUtils.unRegisterReceiver();
+    }
 }
