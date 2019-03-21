@@ -33,6 +33,17 @@ public class PrintData1 {
     private String item_name= "";
     private String qty= "";
     private String main_distribution_type = "";
+    private String supplyer = "";
+
+    public String getSupplyer() {
+        return supplyer;
+    }
+
+    public void setSupplyer(String supplyer) {
+        this.supplyer = supplyer;
+    }
+
+
 
     public String getMain_distribution_type() {
         return main_distribution_type;

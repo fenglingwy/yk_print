@@ -14,7 +14,7 @@ public class PrintTemplate1 {
     private int MULTIPLE = 8;
     private int line_width_border = 2;
     private int page_width = 70 * MULTIPLE;
-    private int page_height = 80 * MULTIPLE;
+    private int page_height = 88 * MULTIPLE;
     private int margin_horizontal = MULTIPLE;
     private int margin_vertical = 8 * MULTIPLE;
     private int top_left_x = margin_horizontal;
@@ -93,14 +93,19 @@ public class PrintTemplate1 {
                 top_left_y + row_height[1] + row_height[0] * 3, " 品名：" + printData1.getItem_name(),
                 24, CanvasUtils.PAlign.ALIGN_LEFT, 0);
 
-
-        // 第5行内容 左边栏内容
-        utils.drawText(top_left_x, top_left_y + row_height[0] * 3 + row_height[1], top_left_x + row36_column1_width + 60,
-                top_left_y + row_height[1] * 2 + row_height[0] * 3, " 验收单号：",
+        // 第4行内容 左边栏内容
+        utils.drawText(top_left_x, top_left_y + row_height[0] * 3 + row_height[1], top_right_x,
+                top_left_y + row_height[1] + row_height[0] * 4, " 供应商：" + printData1.getSupplyer(),
                 24, CanvasUtils.PAlign.ALIGN_LEFT, 0);
 
-        utils.drawBarCode(top_left_x + row36_column1_width + 60, top_left_y + row_height[0] * 3 + row_height[1],
-                top_right_x, top_left_y + row_height[1] * 2 + row_height[0] * 3, printData1.getReserved_no());
+
+        // 第5行内容 左边栏内容
+        utils.drawText(top_left_x, top_left_y + row_height[0] * 4 + row_height[1], top_left_x + row36_column1_width + 60,
+                top_left_y + row_height[1] * 2 + row_height[0] * 4, " 验收单号：",
+                24, CanvasUtils.PAlign.ALIGN_LEFT, 0);
+
+        utils.drawBarCode(top_left_x + row36_column1_width + 60, top_left_y + row_height[0] * 4 + row_height[1],
+                top_right_x, top_left_y + row_height[1] * 2 + row_height[0] * 4, printData1.getReserved_no());
 
         // 第5行内容 右边栏内容
         String mark = "";
@@ -117,8 +122,8 @@ public class PrintTemplate1 {
                 break;
         }
 
-        utils.drawText(top_left_x, top_left_y + row_height[1] * 2 + row_height[0] * 3,
-                top_right_x, top_left_y + row_height[1] * 2 + row_height[0] * 4, " 主配标记：" + mark,
+        utils.drawText(top_left_x, top_left_y + row_height[1] * 2 + row_height[0] * 4,
+                top_right_x, top_left_y + row_height[1] * 2 + row_height[0] * 5, " 主配标记：" + mark,
                 24, CanvasUtils.PAlign.ALIGN_LEFT, 0);
 
     }
