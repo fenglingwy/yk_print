@@ -19,8 +19,9 @@ public class PrintData2 {
      *      * 0: {zone_num_id: 232000, sow_num_id: 232001, qty: 0}
      */
 
-    @SerializedName("barcode")
+    @SerializedName("item_num_id")
     private String Barcode= "";
+    private String itemid= "";
     @SerializedName("main_distribution_type")
     private String type_name= "";
     @SerializedName("remain_qty")
@@ -34,6 +35,14 @@ public class PrintData2 {
 
     public void setBarcode(String Barcode) {
         this.Barcode = Barcode;
+    }
+
+    public String getItemid() {
+        return itemid;
+    }
+
+    public void setItemid(String itemid) {
+        this.itemid = itemid;
     }
 
     public String getType_name() {

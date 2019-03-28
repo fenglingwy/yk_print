@@ -21,6 +21,7 @@ public class PrintData3 {
     private String rec_date= "";
     private String rec_physical_num_id= "";
     private String reserved_no= "";
+    private String shipTranCompany= "";
 
     public String getCode() {
         return code;
@@ -84,5 +85,13 @@ public class PrintData3 {
 
     public void setReserved_no(String reserved_no) {
         this.reserved_no = reserved_no;
+    }
+
+    public String getShipTranCompany() {
+        return shipTranCompany;
+    }
+
+    public void setShipTranCompany(String shipTranCompany) {
+        this.shipTranCompany = shipTranCompany;
     }
 }
