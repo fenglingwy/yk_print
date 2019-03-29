@@ -1,5 +1,7 @@
 package com.yiako.ykprint.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 public class PrintData3 {
 
     /**
@@ -21,6 +23,8 @@ public class PrintData3 {
     private String rec_date= "";
     private String rec_physical_num_id= "";
     private String reserved_no= "";
+
+    @SerializedName("ship_tran_company")
     private String shipTranCompany= "";
 
     public String getCode() {
