@@ -29,6 +29,7 @@ public class PrintData1 {
     @SerializedName("tray_serlno_label")
     private String tray_serlno = "";
     private String item_num_id= "";
+    @SerializedName("itemid")
     private String barcode= "";
     private String item_name= "";
     private String qty= "";

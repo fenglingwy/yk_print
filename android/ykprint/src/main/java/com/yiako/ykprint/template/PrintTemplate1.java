@@ -73,7 +73,7 @@ public class PrintTemplate1 {
                 top_right_x, top_left_y + row_height[0] + row_height[1], printData1.getTray_serlno());
 
         utils.drawText(top_left_x, top_left_y + row_height[0] + row_height[1], area_start_x_3_3,
-                top_left_y + row_height[1] + row_height[0] * 2, " 条码：" + printData1.getBarcode(),
+                top_left_y + row_height[1] + row_height[0] * 2, "商家编码：" + printData1.getBarcode(),
                 24, CanvasUtils.PAlign.ALIGN_LEFT, 0);
 
         utils.drawText(area_start_x_3_3, top_left_y + row_height[1] + row_height[0],
