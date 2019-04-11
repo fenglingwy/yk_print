@@ -65,7 +65,7 @@ public class PrintTemplate3 {
 
         utils.drawText(top_left_x, top_left_y, bottom_right_x,
                 top_left_y + row_height[0], "出库箱唛头",
-                32, CanvasUtils.PAlign.ALIGN_CENTER, 0);
+                32, CanvasUtils.PAlign.ALIGN_CENTER, 1);
 
         utils.drawText(top_left_x, top_left_y + row_height[0], bottom_right_x,
                 top_left_y + row_height[0] + row_height[1], " 出库单号：",
@@ -82,12 +82,12 @@ public class PrintTemplate3 {
 
         utils.drawText(top_left_x, top_left_y + row_height[1] + row_height[0] * 2,
                 top_right_x, top_left_y + row_height[1] + row_height[0] * 3, " 收货仓：" + printData.getRec_physical_num_id(),
-                24, CanvasUtils.PAlign.ALIGN_LEFT, 0);
+                32, CanvasUtils.PAlign.ALIGN_LEFT, 1);
 
 
         utils.drawText(top_left_x, top_left_y + row_height[1] + row_height[0] * 3,
                 top_right_x, top_left_y + row_height[1] + row_height[0] * 4, " 物流公司：" + printData.getShipTranCompany(),
-                24, CanvasUtils.PAlign.ALIGN_LEFT, 0);
+                32, CanvasUtils.PAlign.ALIGN_LEFT, 1);
 
         utils.drawText(top_left_x, top_left_y + row_height[0] * 4 + row_height[1], top_right_x,
                 top_left_y + row_height[1] + row_height[0] * 5, " 发货日期：" + printData.getRec_date(),

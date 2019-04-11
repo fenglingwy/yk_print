@@ -79,7 +79,7 @@ public class PrintTemplate2 {
 
         utils.drawText(top_left_x, top_left_y, bottom_right_x,
                 top_left_y + row_height[0], "箱分货清单",
-                32, CanvasUtils.PAlign.ALIGN_CENTER, 0);
+                32, CanvasUtils.PAlign.ALIGN_CENTER, 1);
 
         utils.drawText(top_left_x, top_left_y + row_height[0], top_right_x,
                 top_left_y + row_height[0] * 2, "商品编码：" + printData.getBarcode(),

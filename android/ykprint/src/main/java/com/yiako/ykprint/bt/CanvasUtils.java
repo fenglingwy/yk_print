@@ -152,6 +152,7 @@ public class CanvasUtils {
     public void drawText(int area_start_x, int area_start_y, int area_end_x, int area_end_y, String text, int fontSize, PAlign alignCenter, int bold) {
         mCanvas.save();
         mTextPaint.setTextSize(fontSize);
+        mTextPaint.setFakeBoldText(bold==1);
         Layout.Alignment alignment = Layout.Alignment.ALIGN_NORMAL;
         switch (alignCenter) {
             case ALIGN_LEFT:

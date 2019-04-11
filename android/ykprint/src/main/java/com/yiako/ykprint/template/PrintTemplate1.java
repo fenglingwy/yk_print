@@ -63,7 +63,7 @@ public class PrintTemplate1 {
 
         utils.drawText(top_left_x, top_left_y, bottom_right_x,
                 top_left_y + row_height[0], "入库装箱单",
-                32, CanvasUtils.PAlign.ALIGN_CENTER, 0);
+                32, CanvasUtils.PAlign.ALIGN_CENTER, 1);
 
         utils.drawText(top_left_x, top_left_y + row_height[0], bottom_right_x,
                 top_left_y + row_height[0] + row_height[1], " 箱号：",
