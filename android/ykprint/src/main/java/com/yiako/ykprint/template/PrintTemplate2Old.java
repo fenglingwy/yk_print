@@ -6,12 +6,9 @@ import com.dascom.print.ESCPOS;
 import com.yiako.ykprint.bt.CanvasUtils;
 import com.yiako.ykprint.entity.PrintData2;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class PrintTemplate2 {
+public class PrintTemplate2Old {
     private ESCPOS escpos;
 
     private int MULTIPLE = 8;
@@ -31,61 +28,46 @@ public class PrintTemplate2 {
     private int[] row_height = {6 * MULTIPLE, 14 * MULTIPLE};
     private String TAG = "PrintLabel";
 
-    public PrintTemplate2(ESCPOS escpos) {
+    public PrintTemplate2Old(ESCPOS escpos) {
         super();
         this.escpos = escpos;
     }
 
     public final void doPrint(List<PrintData2> list) {
-        if (list.size() == 0) return;
-
-        HashMap<String, ArrayList<PrintData2.TraySowDtlsBean>> map = new HashMap<>();
-        PrintData2 data0 = list.get(0);
-        for (PrintData2.TraySowDtlsBean item : data0.getTraySowDtls()) {
-            String zone_id = item.getZone_id();
-            if (map.containsKey(zone_id)) {
-                map.get(zone_id).add(item);
-            } else {
-                ArrayList<PrintData2.TraySowDtlsBean> arrayList = new ArrayList<>();
-                arrayList.add(item);
-                map.put(zone_id, arrayList);
-            }
-        }
-
 
         new Thread() {
             public void run() {
-                for (Map.Entry<String, ArrayList<PrintData2.TraySowDtlsBean>> entry : map.entrySet()) {
+                for (int idx = 0; idx < list.size(); idx++) {
                     page_height = 46 * MULTIPLE;
-                    PrintData2 printData = list.get(0);
+                    PrintData2 printData = list.get(idx);
+                    List<PrintData2.TraySowDtlsBean> traySowDtls = printData.getTraySowDtls();
+                    for (int i = 0; i < 1; i++) {
+                        for (int lines = 0; lines < traySowDtls.size(); lines++) {
+                            page_height += row_height[0];
+                        }
+                        border_height = page_height - 2 * margin_vertical;
+                        bottom_left_y = top_left_y + border_height;
+                        bottom_right_y = bottom_left_y;
 
-                    List<PrintData2.TraySowDtlsBean> traySowDtls = entry.getValue();
-
-                    for (int lines = 0; lines < traySowDtls.size(); lines++) {
-                        page_height += row_height[0];
-                    }
-                    border_height = page_height - 2 * margin_vertical;
-                    bottom_left_y = top_left_y + border_height;
-                    bottom_right_y = bottom_left_y;
-
-                    CanvasUtils utils = new CanvasUtils(page_width, page_height);
-                    drawBox(utils, traySowDtls.size());
-                    drawVerticalSeparator(utils);
-                    drawRowContent(utils, printData, traySowDtls);
+                        CanvasUtils utils = new CanvasUtils(page_width, page_height);
+                        drawBox(utils, traySowDtls.size());
+                        drawVerticalSeparator(utils);
+                        drawRowContent(utils, printData);
 
 
-                    boolean b = escpos.printBitmapBlackWhite(utils.getBitmap(), 0, 0);
-                    if (b) {
-                        ToastUtils.showShort("打印成功！");
-                    } else {
-                        ToastUtils.showShort("打印失败！");
+                        boolean b = escpos.printBitmapBlackWhite(utils.getBitmap(), 0, 0);
+                        if (b) {
+                            ToastUtils.showShort("打印成功！");
+                        } else {
+                            ToastUtils.showShort("打印失败！");
+                        }
                     }
                 }
             }
         }.start();
     }
 
-    private void drawRowContent(CanvasUtils utils, PrintData2 printData, List<PrintData2.TraySowDtlsBean> traySowDtls) {
+    private void drawRowContent(CanvasUtils utils, PrintData2 printData) {
         int area_start_x_4_1 = top_left_x;
         int area_start_x_4_2 = top_left_x + (top_right_x - top_left_x) / 4;
         int area_start_x_4_3 = top_left_x + (top_right_x - top_left_x) / 2;
@@ -132,7 +114,7 @@ public class PrintTemplate2 {
                 24, CanvasUtils.PAlign.ALIGN_CENTER, 0);
 
         //打印表格内容
-//        List<PrintData2.TraySowDtlsBean> traySowDtls = printData.getTraySowDtls();
+        List<PrintData2.TraySowDtlsBean> traySowDtls = printData.getTraySowDtls();
         for (int index = 0; index < traySowDtls.size(); index++) {
             utils.drawText(area_start_x_4_1, top_left_y + row_height[0] * (5 + index), area_start_x_4_2,
                     top_left_y + row_height[0] * (6 + index), traySowDtls.get(index).getZone_id(),
