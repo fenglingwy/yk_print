@@ -1,6 +1,8 @@
 package com.yiako.ykprint.template;
 
 
+import android.util.Log;
+
 import com.blankj.utilcode.util.ToastUtils;
 import com.dascom.print.ESCPOS;
 import com.yiako.ykprint.bt.CanvasUtils;
@@ -44,7 +46,9 @@ public class PrintTemplate1 {
                     drawBox(utils);
 //					drawVerticalSeparator(iPrinter);
                     drawRowContent(utils, list.get(i));
+                    Log.d("Tag","打印开始");
                     boolean b = escpos.printBitmapBlackWhite(utils.getBitmap(), 14, 0);
+                    Log.d("Tag","打印结束");
                     if(b){
                         ToastUtils.showShort("打印成功！");
                     }else{

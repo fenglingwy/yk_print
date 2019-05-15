@@ -26,6 +26,8 @@ public class PrintData2 {
     private String type_name= "";
     @SerializedName("remain_qty")
     private String last_qty= "";
+
+    private String case_num_id= "";
     @SerializedName("sow_zone_qty_list")
     private List<TraySowDtlsBean> traySowDtls = new ArrayList<>();
 
@@ -63,6 +65,14 @@ public class PrintData2 {
 
     public List<TraySowDtlsBean> getTraySowDtls() {
         return traySowDtls;
+    }
+
+    public String getCase_num_id() {
+        return case_num_id;
+    }
+
+    public void setCase_num_id(String case_num_id) {
+        this.case_num_id = case_num_id;
     }
 
     public void setTraySowDtls(List<TraySowDtlsBean> traySowDtls) {

@@ -34,7 +34,7 @@ public class CanvasUtils {
     public static final int FONT_SIZE_BIG = 48;
 
     public CanvasUtils(int width, int height) {
-        this.mBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        this.mBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ALPHA_8);
         this.mCanvas = new Canvas(this.mBitmap);
         this.mPaint = new Paint();
         this.mPaint.setStyle(Paint.Style.STROKE);
