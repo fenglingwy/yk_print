@@ -46,11 +46,18 @@ export default class App extends Component<Props> {
                     <Text style={styles.btn}>打印入库装箱单</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => Print.print(2,
-                    '[{"barcode":"11111111111","main_distribution_type":"新品","remain_qty":"123","item_num_id":"12345678901234567890","itemid":"12345678901234567890","sow_zone_qty_list":' +
+                    '[' +
+                    '{"barcode":"11111111111","case_num_id":"11111111111","main_distribution_type":"新品","remain_qty":"123","item_num_id":"12345678901234567890","itemid":"12345678901234567890","sow_zone_qty_list":' +
                     '[' +
                     '{"zone_num_id":"A","sow_num_id":"91","qty":"20"},{"zone_num_id":"C","sow_num_id":"91","qty":"20"},' +
                     '{"zone_num_id":"S","sow_num_id":"91","qty":"20"},{"zone_num_id":"A","sow_num_id":"91","qty":"20"},' +
-                    '{"zone_num_id":"S","sow_num_id":"91","qty":"20"}]}]'
+                    '{"zone_num_id":"S","sow_num_id":"91","qty":"20"}]},' +
+                    '{"barcode":"222222222","case_num_id":"2222222","main_distribution_type":"22222","remain_qty":"222","item_num_id":"22222222222222","itemid":"222222222222","sow_zone_qty_list":' +
+                    '[' +
+                    '{"zone_num_id":"A2","sow_num_id":"91","qty":"20"},{"zone_num_id":"C2","sow_num_id":"91","qty":"20"},' +
+                    '{"zone_num_id":"S2","sow_num_id":"91","qty":"20"},{"zone_num_id":"A2","sow_num_id":"91","qty":"20"},' +
+                    '{"zone_num_id":"S2","sow_num_id":"91","qty":"20"}]}' +
+                    ']'
                 )}
                                   activeOpacity={0.2} focusedOpacity={0.5}>
                     <Text style={styles.btn}>打印箱分货清单</Text>

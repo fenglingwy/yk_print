@@ -40,48 +40,51 @@ public class PrintTemplate2 {
     public final void doPrint(List<PrintData2> list) {
         if (list.size() == 0) return;
 
-        TreeMap<String, ArrayList<PrintData2.TraySowDtlsBean>> map = new TreeMap<>();
-        PrintData2 data0 = list.get(0);
-        for (PrintData2.TraySowDtlsBean item : data0.getTraySowDtls()) {
-            String zone_id = item.getZone_id();
-            if (map.containsKey(zone_id)) {
-                map.get(zone_id).add(item);
-            } else {
-                ArrayList<PrintData2.TraySowDtlsBean> arrayList = new ArrayList<>();
-                arrayList.add(item);
-                map.put(zone_id, arrayList);
-            }
-        }
-
-
         new Thread() {
             public void run() {
-                for (Map.Entry<String, ArrayList<PrintData2.TraySowDtlsBean>> entry : map.entrySet()) {
-                    page_height = 52 * MULTIPLE;
-                    PrintData2 printData = list.get(0);
 
-                    List<PrintData2.TraySowDtlsBean> traySowDtls = entry.getValue();
-
-                    for (int lines = 0; lines < traySowDtls.size(); lines++) {
-                        page_height += row_height[0];
+                for(int i=0 ;i<list.size() ;i++){
+                    TreeMap<String, ArrayList<PrintData2.TraySowDtlsBean>> map = new TreeMap<>();
+                    PrintData2 data = list.get(i);
+                    for (PrintData2.TraySowDtlsBean item : data.getTraySowDtls()) {
+                        String zone_id = item.getZone_id();
+                        if (map.containsKey(zone_id)) {
+                            map.get(zone_id).add(item);
+                        } else {
+                            ArrayList<PrintData2.TraySowDtlsBean> arrayList = new ArrayList<>();
+                            arrayList.add(item);
+                            map.put(zone_id, arrayList);
+                        }
                     }
-                    border_height = page_height - 2 * margin_vertical;
-                    bottom_left_y = top_left_y + border_height;
-                    bottom_right_y = bottom_left_y;
 
-                    CanvasUtils utils = new CanvasUtils(page_width, page_height);
-                    drawBox(utils, traySowDtls.size());
-                    drawVerticalSeparator(utils);
-                    drawRowContent(utils, printData, traySowDtls);
+                    for (Map.Entry<String, ArrayList<PrintData2.TraySowDtlsBean>> entry : map.entrySet()) {
+                        page_height = 52 * MULTIPLE;
+
+                        List<PrintData2.TraySowDtlsBean> traySowDtls = entry.getValue();
+
+                        for (int lines = 0; lines < traySowDtls.size(); lines++) {
+                            page_height += row_height[0];
+                        }
+                        border_height = page_height - 2 * margin_vertical;
+                        bottom_left_y = top_left_y + border_height;
+                        bottom_right_y = bottom_left_y;
+
+                        CanvasUtils utils = new CanvasUtils(page_width, page_height);
+                        drawBox(utils, traySowDtls.size());
+                        drawVerticalSeparator(utils);
+                        drawRowContent(utils, data, traySowDtls);
 
 
-                    boolean b = escpos.printBitmapBlackWhite(utils.getBitmap(), 0, 0);
-                    if (b) {
-                        ToastUtils.showShort("打印成功！");
-                    } else {
-                        ToastUtils.showShort("打印失败！");
+                        boolean b = escpos.printBitmapBlackWhite(utils.getBitmap(), 0, 0);
+                        if (b) {
+                            ToastUtils.showShort("打印成功！");
+                        } else {
+                            ToastUtils.showShort("打印失败！");
+                        }
                     }
                 }
+
+
             }
         }.start();
     }
