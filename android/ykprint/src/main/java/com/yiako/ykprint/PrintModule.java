@@ -20,6 +20,7 @@ import com.yiako.ykprint.entity.PrintData3;
 import com.yiako.ykprint.template.PrintTemplate1;
 import com.yiako.ykprint.template.PrintTemplate1New;
 import com.yiako.ykprint.template.PrintTemplate2;
+import com.yiako.ykprint.template.PrintTemplate2New;
 import com.yiako.ykprint.template.PrintTemplate3;
 import com.yiako.ykprint.template.PrintTemplate3New;
 
@@ -89,7 +90,7 @@ public class PrintModule extends ReactContextBaseJavaModule {
                                 Type type2 = new TypeToken<List<PrintData2>>() {
                                 }.getType();
                                 List<PrintData2> list2 = new Gson().fromJson(data, type2);
-                                new PrintTemplate2(BluetoothUtils.escpos).doPrint(list2);
+                                new PrintTemplate2New(BluetoothUtils.escpos).doPrint(list2);
                                 break;
                             case 3:
                                 new PrintTemplate3New(BluetoothUtils.escpos).doPrint(new Gson().fromJson(data, PrintData3.class));
