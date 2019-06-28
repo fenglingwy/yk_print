@@ -1,16 +1,10 @@
 package com.yiako.ykprint.template;
 
 
-import android.util.Log;
-
-import com.blankj.utilcode.util.ToastUtils;
 import com.dascom.print.ESCPOS;
-import com.yiako.ykprint.bt.CanvasUtils;
 import com.yiako.ykprint.entity.PrintData1;
 
 import java.util.List;
-
-import javax.xml.transform.TransformerConfigurationException;
 
 public class PrintTemplate1New {
     private ESCPOS escpos;

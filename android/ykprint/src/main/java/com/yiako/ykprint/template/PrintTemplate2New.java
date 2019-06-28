@@ -59,6 +59,8 @@ public class PrintTemplate2New {
 
                         escpos.printText("商家商品编码：" + data.getItemid());
                         escpos.printLineFeed();
+                        escpos.printText("本品应播总量：" + data.getAmount());
+                        escpos.printLineFeed();
 
                         escpos.printText("类型：" + data.getType_name());
                         escpos.setAbsolutePosition(330);
@@ -79,6 +81,7 @@ public class PrintTemplate2New {
                         escpos.printLineFeed();
                         escpos.printText("- - - - - - - - - - - - - - - - - - - - - - - -");
                         escpos.printLineFeed();
+                        int num = 0;
                         for (int lines = 0; lines < traySowDtls.size(); lines++) {
                             escpos.setAbsolutePosition(55);
                             escpos.printText(traySowDtls.get(lines).getZone_id());
@@ -86,12 +89,17 @@ public class PrintTemplate2New {
                             escpos.printText(traySowDtls.get(lines).getSow_id());
                             escpos.setAbsolutePosition(340);
                             escpos.printText(traySowDtls.get(lines).getQty());
-
                             escpos.printLineFeed();
                             escpos.printText("- - - - - - - - - - - - - - - - - - - - - - - -");
                             escpos.printLineFeed();
+                            num +=  Integer.parseInt(traySowDtls.get(lines).getQty());
                         }
-                        escpos.printFeedLines(4);
+                        escpos.setAbsolutePosition(50);
+                        escpos.printText("小计");
+                        escpos.setAbsolutePosition(340);
+                        escpos.printText(""+ num);
+                        escpos.printLineFeed();
+                        escpos.printFeedLines(5);
 
                     }
                 }

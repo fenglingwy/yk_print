@@ -26,6 +26,7 @@ public class PrintData2 {
     private String type_name= "";
     @SerializedName("remain_qty")
     private String last_qty= "";
+    private String amount= "";
 
     private String case_num_id= "";
     @SerializedName("sow_zone_qty_list")
@@ -77,6 +78,14 @@ public class PrintData2 {
 
     public void setTraySowDtls(List<TraySowDtlsBean> traySowDtls) {
         this.traySowDtls = traySowDtls;
+    }
+
+    public String getAmount() {
+        return amount;
+    }
+
+    public void setAmount(String amount) {
+        this.amount = amount;
     }
 
     public static class TraySowDtlsBean {
