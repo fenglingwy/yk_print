@@ -66,7 +66,7 @@ public class PrintTemplate1New {
                 mark = "补货主配";
                 break;
             case "3":
-                mark = "留仓主配";
+                mark = "留仓";
                 break;
         }
 
